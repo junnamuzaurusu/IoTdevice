@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
+import json
 
 
 class RawDataResponse(BaseModel):
@@ -19,4 +20,6 @@ class PostRawDataRequest(BaseModel):
     date_time: datetime
     illuminance: int
     is_people_detected: bool
+
+
     

@@ -3,6 +3,7 @@ import uvicorn
 from datetime import datetime
 import ulid
 
+
 from schemas.raw_data import RawDataResponse, PostRawDataRequest
 
 from models.raw_data import RawData
@@ -27,14 +28,14 @@ async def get_raw_data(db: Session = Depends(get_db)):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
         
-@router.post("", response_model=RawDataResponse)
+@router.post("")
 async def append_raw_data(request: PostRawDataRequest, db: Session = Depends(get_db)):
     try:
         new_data = RawData(id=ulid.new().str, mode=request.mode, date_time=request.date_time, illuminance=request.illuminance, is_people_detected=request.is_people_detected)
         db.add(new_data)
         db.commit()
         db.refresh(new_data)
-        return new_data
+        return
     except Exception as e:
         db.rollback()
         raise HTTPException(status_code=400, detail=str(e))
