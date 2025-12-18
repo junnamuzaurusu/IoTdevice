@@ -10,6 +10,7 @@ class RawDataResponse(BaseModel):
     date_time: datetime
     illuminance: int
     is_people_detected: bool
+    is_outlier: bool | None = False
 
     class Config:
         from_attributes = True
