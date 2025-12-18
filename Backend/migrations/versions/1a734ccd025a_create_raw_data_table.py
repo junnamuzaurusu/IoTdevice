@@ -27,6 +27,7 @@ def upgrade() -> None:
     sa.Column('date_time', sa.DateTime(), nullable=True),
     sa.Column('illuminance', sa.Integer(), nullable=True),
     sa.Column('is_people_detected', sa.Boolean(), nullable=True),
+    sa.Column('is_outlier', sa.Boolean(), nullable=True),
     sa.CheckConstraint('mode >= 0 AND mode < 4'),
     sa.PrimaryKeyConstraint('id')
     )

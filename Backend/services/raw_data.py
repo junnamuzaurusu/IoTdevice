@@ -11,6 +11,8 @@ from settings import SessionLocal
 
 from sqlalchemy.orm import Session
 
+from algorithm.check_outeliers import check_outliers
+
 prefix = "/raw-data"
 router = APIRouter()
 
@@ -31,7 +33,11 @@ async def get_raw_data(db: Session = Depends(get_db)):
 @router.post("")
 async def append_raw_data(request: PostRawDataRequest, db: Session = Depends(get_db)):
     try:
-        new_data = RawData(id=ulid.new().str, mode=request.mode, date_time=request.date_time, illuminance=request.illuminance, is_people_detected=request.is_people_detected)
+        date_time = request.date_time
+        illuminance = request.illuminance
+        is_people_detected = request.is_people_detected
+        outliers : bool = check_outliers(date_time, illuminance, is_people_detected)
+        new_data = RawData(id=ulid.new().str, mode=request.mode, date_time=date_time, illuminance=illuminance, is_people_detected=is_people_detected, is_outlier=outliers)
         db.add(new_data)
         db.commit()
         db.refresh(new_data)
