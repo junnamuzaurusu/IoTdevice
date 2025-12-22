@@ -37,13 +37,14 @@ async def append_raw_data(request: PostRawDataRequest, db: Session = Depends(get
         illuminance = request.illuminance
         is_people_detected = request.is_people_detected
         is_outlier : bool = check_outliers(date_time, illuminance, is_people_detected)
-        new_data = RawData(id=ulid.new().str, mode=request.mode, date_time=date_time, illuminance=illuminance, is_people_detected=is_people_detected, is_outlier=is_outlier)
+        new_data = RawData(id=ulid.ulid(), mode=request.mode, date_time=date_time, illuminance=illuminance, is_people_detected=is_people_detected, is_outlier=is_outlier)
         db.add(new_data)
         db.commit()
         db.refresh(new_data)
         return
     except Exception as e:
         db.rollback()
+        print(f"Error in append_raw_data: {e}")
         raise HTTPException(status_code=400, detail=str(e))
 
 @router.delete("")
