@@ -50,14 +50,17 @@ IoTデバイスからのセンサデータをリアルタイムで収集し、�
 ### 1. バックエンドの起動
 ```bash
 cd Backend
+python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 python app.py
 ```
-*注: 初回実行時は `alembic upgrade head` でデータベースのマイグレーションが必要です。*
+*注: 初回実行時は alembicをインストールし、`alembic upgrade head` でデータベースのマイグレーションが必要です。*
 
 ### 2. 外部公開 (ngrok)
 リレーサーバーからのデータを受け取るため、バックエンドを公開します。
+1. ngrokをインストールするため、 https://ngrok.com/ にアクセスし、無料プランでログインする。
+2. ngrokを起動する。
 ```bash
 ngrok http 8000
 ```

@@ -25,7 +25,7 @@ def post_data(data_fields):
             "illuminance": int(data_fields[2]),
             "is_people_detected": bool(int(data_fields[3]))
         }
-        url = "http://172.19.22.48:8000/raw-data"
+        url = f"{"""ngrokによって生成されるURL"""}/raw-data"
         response = requests.post(url, json=data)
         return response.status_code == 200
     except ValueError as e:
